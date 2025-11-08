@@ -1,65 +1,78 @@
 #include <stdio.h>
 
-int main() {
-    // ==========================
-    // Simulação da TORRE
-    // ==========================
-    int movimentoTorre = 5; 
-    printf("Movimento da TORRE:\n");
-    for (int i = 1; i <= movimentoTorre; i++) {
-        printf("Direita\n");
+
+void moverTorre(int passoAtual, int totalPassos) {
+    if (passoAtual > totalPassos) return; // Caso base
+    printf("Direita\n");
+    moverTorre(passoAtual + 1, totalPassos); // Chamada recursiva
+}
+
+
+void moverBispo(int passoAtual, int totalPassos) {
+    if (passoAtual > totalPassos) return; // Caso base
+
+    // Loop externo: movimento vertical
+    for (int i = 1; i <= 1; i++) {
+        // Loop interno: movimento horizontal
+        for (int j = 1; j <= 1; j++) {
+            printf("Cima Direita\n");
+        }
     }
 
-    printf("\n");
+    moverBispo(passoAtual + 1, totalPassos); 
+}
 
-    
-    // Simulação do BISPO
-    
-    int movimentoBispo = 5;
-    int i = 1;
-    printf("Movimento do BISPO:\n");
-    while (i <= movimentoBispo) {
-        printf("Cima Direita\n");
-        i++;
-    }
 
-    printf("\n");
+void moverRainha(int passoAtual, int totalPassos) {
+    if (passoAtual > totalPassos) return; 
+    printf("Esquerda\n");
+    moverRainha(passoAtual + 1, totalPassos); 
+}
 
-    
-    // Simulação da RAINHA
-    
-    int movimentoRainha = 8;
-    int j = 1;
-    printf("Movimento da RAINHA:\n");
-    do {
-        printf("Esquerda\n");
-        j++;
-    } while (j <= movimentoRainha);
 
-    printf("\n");
-
-    
-    // Simulação do CAVALO
-    
-    int casasBaixo = 2;
-    int casasEsquerda = 1;
+void moverCavalo() {
+    int casasCima = 2;
+    int casasDireita = 1;
 
     printf("Movimento do CAVALO:\n");
 
-    // Loop externo (for): movimenta para baixo
-    for (int passoBaixo = 1; passoBaixo <= casasBaixo; passoBaixo++) {
-        printf("Baixo\n");
+    
+    for (int i = 1, movimento = 0; i <= casasCima; i++, movimento++) {
+        printf("Cima\n");
 
-        // Loop interno (while): após o último movimento para baixo,
-        // faz o movimento perpendicular (para a esquerda)
-        if (passoBaixo == casasBaixo) {
-            int passoEsquerda = 1;
-            while (passoEsquerda <= casasEsquerda) {
-                printf("Esquerda\n");
-                passoEsquerda++;
+        
+        for (int j = 1; j <= casasDireita; j++) {
+            if (i < casasCima) {
+                // Ainda não é o momento de mover horizontalmente
+                continue;
             }
+            printf("Direita\n");
+            break; // encerra o movimento horizontal após 1 casa
         }
     }
+}
+
+// ============================================================
+// PROGRAMA PRINCIPAL
+// ============================================================
+int main() {
+    // ---------- TORRE ----------
+    printf("Movimento da TORRE:\n");
+    moverTorre(1, 5); // 5 casas para a direita
+    printf("\n");
+
+    // ---------- BISPO ----------
+    printf("Movimento do BISPO:\n");
+    moverBispo(1, 5); // 5 casas na diagonal superior direita
+    printf("\n");
+
+    // ---------- RAINHA ----------
+    printf("Movimento da RAINHA:\n");
+    moverRainha(1, 8); // 8 casas para a esquerda
+    printf("\n");
+
+    // ---------- CAVALO ----------
+    moverCavalo(); // 2 para cima, 1 para a direita
 
     return 0;
 }
